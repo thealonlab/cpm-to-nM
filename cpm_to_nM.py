@@ -31,7 +31,7 @@ def cpm_to_nM(cpm, sa_ciper_mmole, volume_ul, efficiency=0.5):
 
 st.title("CPM → Concentration (nM) Calculator")
 
-cpm = st.number_input("Counts per minute (CPM)", value=42943, step=1000)
+cpm = st.number_input("Counts per minute (CPM)", value=25000, step=1000)
 sa = st.number_input("Specific activity (Ci/mmol)", value=60.0, step=0.1)
 vol = st.number_input("Sample volume (µL)", value=10.0, step=1.0)
 eff = st.number_input("Counting efficiency (0-1)", value=0.5, step=0.05)
