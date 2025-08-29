@@ -31,6 +31,23 @@ def cpm_to_nM(cpm, sa_ciper_mmole, volume_ul, efficiency=0.5):
 
 st.title("CPM → Concentration (nM) Calculator")
 
+st.latex(r"""
+C \;=\; 
+\frac{\text{CPM}}{\text{Eff}} \times 
+\frac{10^{6} \; }{SA \;\times\; 2.22 \times 10^{12} \;\times\; V}
+\\[12pt]
+\textbf{Where:} \\[6pt]
+\begin{aligned}
+C   &= \text{concentration in nM} \\
+SA  &= \text{specific activity (Ci/mmol)} \\
+Eff &= \text{counting efficiency (0–1)} \\
+CPM &= \text{counts per minute} \\
+V   &= \text{volume in } \mu L
+\end{aligned}
+""")
+
+
+
 cpm = st.number_input("Counts per minute (CPM)", value=25000, step=1000)
 sa = st.number_input("Specific activity (Ci/mmol)", value=60.0, step=0.1)
 vol = st.number_input("Sample volume (µL)", value=10.0, step=1.0)
