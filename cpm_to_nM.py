@@ -1,6 +1,6 @@
 import streamlit as st
 
-def cpm_to_nM(cpm, sa_ciper_mmole, volume_ul, efficiency=0.5):
+def cpm_to_nM(cpm, sa_ciper_mmole, volume_ul, efficiency=0.5, dillution=1):
     """
     Convert CPM to concentration in nM.
     """
@@ -23,9 +23,12 @@ def cpm_to_nM(cpm, sa_ciper_mmole, volume_ul, efficiency=0.5):
     
     # Concentration in M
     conc_M = mol / volume_l
+
+    # corrected for dillution
+    conc_dil = conc_M / dillution
     
     # Convert to nM
-    return conc_M * 1e9
+    return conc_dil * 1e9
 
 # ---------------- Streamlit UI ----------------
 
@@ -52,7 +55,8 @@ cpm = st.number_input("Counts per minute (CPM)", value=25000, step=1000)
 sa = st.number_input("Specific activity (Ci/mmol)", value=60.0, step=0.1)
 vol = st.number_input("Sample volume (µL)", value=10.0, step=1.0)
 eff = st.number_input("Counting efficiency (0-1)", value=0.5, step=0.05)
+dillution = st.number_input("Dilution factor", value=10, step=1)
 
 if st.button("Calculate concentration"):
-    conc_nM = cpm_to_nM(cpm, sa, vol, eff)
+    conc_nM = cpm_to_nM(cpm, sa, vol, eff,dillution)
     st.success(f"Concentration = {conc_nM:.2f} nM")
