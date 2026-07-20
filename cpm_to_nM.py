@@ -142,19 +142,22 @@ except ValueError as e:
     st.stop()
 
 # --- Calculation ---
+# --- Calculation ---
 if st.button("Calculate"):
     try:
-        conc_nM = cpm_to_conc_nM(cpm, sa_current, aliquot_ul, eff)
+        scale = rxn_ul / aliquot_ul
+        
+        # Calculate concentration based on the aliquot, then correct for the dilution factor
+        conc_aliquot_nM = cpm_to_conc_nM(cpm, sa_current, aliquot_ul, eff)
+        conc_nM = conc_aliquot_nM / scale
 
         mol_aliquot = cpm_to_moles(cpm, sa_current, eff)
-        scale = rxn_ul / aliquot_ul
         mol_total = mol_aliquot * scale
 
         st.success(f"Concentration in reaction = {conc_nM:.2f} nM")
         st.info(f"Amount in aliquot = {mol_aliquot * 1e12:.3f} pmol")
         st.info(f"Total amount in reaction (scaled by {scale:.2f}×) = {mol_total * 1e12:.3f} pmol")
 
-        # Optional: sanity check text
-        st.caption("Note: Aliquot vs total volume affects total amount, not concentration (assuming well-mixed).")
+        st.caption("Note: Aliquot concentration divided by the volume dilution factor yields the reaction concentration.")
     except ValueError as e:
         st.error(str(e))
